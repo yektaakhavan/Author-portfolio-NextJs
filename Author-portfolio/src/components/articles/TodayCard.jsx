@@ -1,6 +1,6 @@
 "use client";
 
-import { useIsHydrated } from "@/hooks/useCart";
+import { useIsHydrated } from "@/hooks/useIsHydrated";
 import { formatDate } from "@/lib/format";
 
 /**

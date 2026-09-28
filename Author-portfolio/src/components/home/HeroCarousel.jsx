@@ -17,7 +17,6 @@ function HeroSlide({ slide, active, first }) {
     <div className={`absolute inset-0 transition-opacity duration-700 ${active ? "opacity-100" : "opacity-0"}`}>
       <picture>
         <source media={MOBILE_MEDIA_QUERY} srcSet={mobile.srcSet} />
-        {/* eslint-disable-next-line @next/next/no-img-element -- rendered from getImageProps for art direction */}
         <img {...desktop} alt={slide.alt} className="object-cover" />
       </picture>
     </div>

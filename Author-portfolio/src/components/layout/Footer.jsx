@@ -1,16 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { FaInstagram, FaTelegram, FaWhatsapp } from "react-icons/fa";
 import eitaaIcon from "@/assets/images/icons/eitaa.webp";
 import enemad from "@/assets/images/icons/enemad.webp";
+import { useSettings } from "@/components/providers/SettingsProvider";
 import { NAV_ITEMS } from "@/data/navigation";
-import { getSettings } from "@/lib/content";
 
 const SOCIAL_LINK_CLASS =
   "flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-gold-500";
 
-export default async function Footer() {
-  const settings = await getSettings();
+export default function Footer() {
+  const settings = useSettings();
 
   const socialLinks = [
     { icon: FaInstagram, label: "اینستاگرام", url: settings.social_instagram },

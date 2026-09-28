@@ -10,16 +10,7 @@ import {
   setItemQuantity,
   subscribeToCart,
 } from "@/lib/cart-store";
-
-const subscribeToNothing = () => () => {};
-
-/** True once the component has hydrated in the browser (always false on the server). */
-export const useIsHydrated = () =>
-  useSyncExternalStore(
-    subscribeToNothing,
-    () => true,
-    () => false,
-  );
+import { useIsHydrated } from "@/hooks/useIsHydrated";
 
 /**
  * Shopping cart state. `isReady` turns true after hydration, once the saved

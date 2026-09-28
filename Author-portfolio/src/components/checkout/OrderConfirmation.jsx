@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 
 /** Shown after an order is saved; explains the manual payment follow-up call. */
@@ -26,9 +27,9 @@ export default function OrderConfirmation({ callTime, phone }) {
 
       <p className="max-w-md text-xs text-gray-400">
         در صورتی که تماس دریافت نکردید، می‌توانید مستقیماً از طریق صفحه‌ی{" "}
-        <a href="/contact" className="font-bold text-brand-500 hover:underline">
+        <Link href="/contact" className="font-bold text-brand-500 hover:underline">
           ارتباط با ما
-        </a>{" "}
+        </Link>{" "}
         پیگیری کنید.
       </p>
     </div>
