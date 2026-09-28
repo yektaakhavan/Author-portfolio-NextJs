@@ -2,7 +2,7 @@ import "server-only";
 
 import baseBooks from "@/data/books";
 import defaultSettings from "@/data/defaultSettings";
-import { request } from "@/lib/http";
+import { ApiError, request } from "@/lib/http";
 
 // Server-side data access for Server Components.
 // Content that admins edit is re-fetched at most once per minute.
@@ -12,12 +12,13 @@ const cached = { next: { revalidate: REVALIDATE_SECONDS } };
 /** All articles, freshest first. Throws when the API is unreachable. */
 export const getArticles = () => request("/articles", cached);
 
-/** A single article, or null when it doesn't exist. */
+/** A single article, or null when it doesn't exist. Other failures still throw. */
 export async function getArticle(id) {
   try {
     return await request(`/articles/${id}`, cached);
-  } catch {
-    return null;
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) return null;
+    throw error;
   }
 }
 
