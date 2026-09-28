@@ -1,0 +1,43 @@
+<svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cal1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f4f1ff"/>
+    </linearGradient>
+    <linearGradient id="calhead1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2f3690"/>
+      <stop offset="1" stop-color="#0f1258"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="480" height="320" fill="#eef0fb"/>
+  <ellipse cx="240" cy="285" rx="130" ry="14" fill="#0c0e46" opacity="0.06"/>
+
+  <rect x="115" y="65" width="250" height="205" rx="18" fill="url(#cal1)" stroke="#0f1258" stroke-width="2.5"/>
+  <rect x="115" y="65" width="250" height="48" rx="18" fill="url(#calhead1)"/>
+  <rect x="115" y="95" width="250" height="18" fill="url(#calhead1)"/>
+  <rect x="150" y="50" width="14" height="34" rx="6" fill="#e0b25a"/>
+  <rect x="316" y="50" width="14" height="34" rx="6" fill="#e0b25a"/>
+
+  <g fill="#d7dbf3">
+    <rect x="140" y="135" width="28" height="28" rx="6"/>
+    <rect x="182" y="135" width="28" height="28" rx="6"/>
+    <rect x="224" y="135" width="28" height="28" rx="6"/>
+    <rect x="266" y="135" width="28" height="28" rx="6"/>
+    <rect x="308" y="135" width="28" height="28" rx="6"/>
+    <rect x="140" y="177" width="28" height="28" rx="6"/>
+    <rect x="182" y="177" width="28" height="28" rx="6" fill="#e0b25a"/>
+    <rect x="224" y="177" width="28" height="28" rx="6"/>
+    <rect x="266" y="177" width="28" height="28" rx="6"/>
+    <rect x="308" y="177" width="28" height="28" rx="6"/>
+    <rect x="140" y="219" width="28" height="28" rx="6"/>
+    <rect x="182" y="219" width="28" height="28" rx="6"/>
+    <rect x="224" y="219" width="28" height="28" rx="6"/>
+  </g>
+  <path d="M186 191 l7 7 l14 -16" stroke="#0f1258" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g transform="translate(388 235)">
+    <circle r="30" fill="#0f1258"/>
+    <path d="M-11 2 l7 8 l16 -20" stroke="#e0b25a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

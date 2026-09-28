@@ -1,0 +1,42 @@
+<svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef0fb"/>
+      <stop offset="1" stop-color="#e3e6f8"/>
+    </linearGradient>
+    <linearGradient id="body2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f3690"/>
+      <stop offset="1" stop-color="#0c0e46"/>
+    </linearGradient>
+    <linearGradient id="bubble2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f3690"/>
+      <stop offset="1" stop-color="#0f1258"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="480" height="320" fill="url(#bg2)"/>
+  <ellipse cx="165" cy="295" rx="90" ry="14" fill="#0c0e46" opacity="0.08"/>
+
+  <!-- character body -->
+  <path d="M110 300 q-6 -95 55 -108 q55 12 55 108z" fill="url(#body2)"/>
+  <circle cx="165" cy="140" r="36" fill="#e0b25a"/>
+  <path d="M132 128 q33 -28 66 0 q3 12 -6 12 q-27 -18 -54 0 q-9 0 -6 -12z" fill="#0c0e46"/>
+  <path d="M150 148 q15 8 30 0" stroke="#8a5a1e" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <circle cx="152" cy="140" r="2.6" fill="#0c0e46"/>
+  <circle cx="178" cy="140" r="2.6" fill="#0c0e46"/>
+
+  <!-- raised hand / stop gesture -->
+  <path d="M195 172 q30 -40 55 -28 q9 5 2 13 q20 -10 27 3 q6 8 -3 13 q17 -3 22 7 q4 9 -7 13 l-52 24 q-27 10 -47 -12z" fill="#e0b25a"/>
+  <path d="M240 165 l10 -14 M255 162 l7 -13 M268 168 l5 -12" stroke="#c8952f" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- speech bubble with 'no' -->
+  <rect x="300" y="55" width="140" height="82" rx="20" fill="url(#bubble2)"/>
+  <path d="M330 137 l-16 26 l32 -18z" fill="#0f1258"/>
+  <text x="370" y="108" font-family="sans-serif" font-size="32" fill="#e0b25a" font-weight="bold" text-anchor="middle">نه</text>
+
+  <rect x="30" y="298" width="420" height="6" rx="3" fill="#d7dbf3"/>
+
+  <circle cx="60" cy="70" r="3" fill="#c8952f"/>
+  <circle cx="420" cy="220" r="3" fill="#c8952f"/>
+  <circle cx="440" cy="55" r="2.4" fill="#c8952f"/>
+</svg>

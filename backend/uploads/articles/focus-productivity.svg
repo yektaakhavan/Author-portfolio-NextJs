@@ -1,0 +1,41 @@
+<svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="target1" cx="0.4" cy="0.4" r="0.7">
+      <stop offset="0" stop-color="#f0c778"/>
+      <stop offset="1" stop-color="#c8952f"/>
+    </radialGradient>
+    <linearGradient id="card1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f4f1ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="480" height="320" fill="#eef0fb"/>
+  <ellipse cx="180" cy="270" rx="90" ry="14" fill="#0c0e46" opacity="0.06"/>
+
+  <circle cx="180" cy="165" r="92" fill="#d7dbf3"/>
+  <circle cx="180" cy="165" r="68" fill="#2f3690"/>
+  <circle cx="180" cy="165" r="44" fill="url(#target1)"/>
+  <circle cx="180" cy="165" r="17" fill="#0f1258"/>
+  <circle cx="180" cy="165" r="5" fill="#eef0fb"/>
+
+  <!-- little dart -->
+  <g transform="rotate(-25 300 90)">
+    <rect x="288" y="60" width="6" height="46" rx="3" fill="#0c0e46"/>
+    <path d="M291 60 l-9 -18 l18 0z" fill="#c8952f"/>
+    <path d="M283 106 l8 12 l8 -12z" fill="#e0b25a"/>
+  </g>
+
+  <rect x="298" y="70" width="150" height="180" rx="16" fill="url(#card1)" stroke="#0f1258" stroke-width="2.5"/>
+  <g fill="#0f1258">
+    <rect x="318" y="100" width="18" height="18" rx="5"/>
+    <rect x="318" y="142" width="18" height="18" rx="5" fill="#e0b25a"/>
+    <rect x="318" y="184" width="18" height="18" rx="5"/>
+  </g>
+  <g stroke="#0f1258" stroke-width="4" stroke-linecap="round">
+    <line x1="348" y1="109" x2="420" y2="109"/>
+    <line x1="348" y1="151" x2="420" y2="151"/>
+    <line x1="348" y1="193" x2="420" y2="193"/>
+  </g>
+  <path d="M322 109 l5 5 l9 -10" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
