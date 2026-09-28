@@ -1,21 +1,18 @@
-import { Link } from "react-router-dom";
-import { FaHome, FaUser, FaPen, FaBook, FaInfoCircle, FaInstagram, FaWhatsapp, FaTelegram } from "react-icons/fa";
-import enemad from "../../assets/images/icons/enemad.webp";
-import eitaaIcon from "../../assets/images/icons/eitaa.webp";
-import { useSettings } from "../../hooks/useSettings";
+import Image from "next/image";
+import Link from "next/link";
+import { FaInstagram, FaTelegram, FaWhatsapp } from "react-icons/fa";
+import eitaaIcon from "@/assets/images/icons/eitaa.webp";
+import enemad from "@/assets/images/icons/enemad.webp";
+import { NAV_ITEMS } from "@/data/navigation";
+import { getSettings } from "@/lib/content";
 
-const menuItems = [
-  { icon: FaHome, label: "صفحه اصلی", path: "/" },
-  { icon: FaUser, label: "درباره ما", path: "/about" },
-  { icon: FaBook, label: "کتاب‌ها", path: "/books" },
-  { icon: FaPen, label: "نوشته‌هایی از دل کتاب", path: "/article" },
-  { icon: FaInfoCircle, label: "ارتباط با ما", path: "/contact" },
-];
+const SOCIAL_LINK_CLASS =
+  "flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-gold-500";
 
-function Footer() {
-  const settings = useSettings();
+export default async function Footer() {
+  const settings = await getSettings();
 
-  const socialItems = [
+  const socialLinks = [
     { icon: FaInstagram, label: "اینستاگرام", url: settings.social_instagram },
     { icon: FaWhatsapp, label: "واتساپ", url: settings.social_whatsapp },
     { icon: FaTelegram, label: "تلگرام", url: settings.social_telegram },
@@ -27,14 +24,14 @@ function Footer() {
         <div>
           <h3 className="mb-4 text-lg font-bold text-gold-400">دسترسی سریع</h3>
           <ul className="flex flex-col gap-2">
-            {menuItems.map((item) => (
-              <li key={item.path}>
+            {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
+              <li key={href}>
                 <Link
-                  to={item.path}
+                  href={href}
                   className="flex items-center gap-2 text-sm text-brand-100 transition-colors hover:text-gold-400"
                 >
-                  <item.icon aria-hidden="true" />
-                  {item.label}
+                  <Icon aria-hidden="true" />
+                  {label}
                 </Link>
               </li>
             ))}
@@ -44,16 +41,16 @@ function Footer() {
         <div>
           <h3 className="mb-4 text-lg font-bold text-gold-400">شبکه‌های اجتماعی</h3>
           <div className="flex items-center gap-3">
-            {socialItems.map((item) => (
+            {socialLinks.map(({ icon: Icon, label, url }) => (
               <a
-                key={item.label}
-                href={item.url}
+                key={label}
+                href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={item.label}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-lg transition-colors hover:bg-gold-500 hover:text-brand-700"
+                aria-label={label}
+                className={`${SOCIAL_LINK_CLASS} text-lg hover:text-brand-700`}
               >
-                <item.icon />
+                <Icon />
               </a>
             ))}
             {settings.social_eitaa && (
@@ -62,9 +59,9 @@ function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="ایتا"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-gold-500"
+                className={SOCIAL_LINK_CLASS}
               >
-                <img src={eitaaIcon} alt="" className="h-5 w-5 rounded-full" loading="lazy" />
+                <Image src={eitaaIcon} alt="" className="h-5 w-5 rounded-full" />
               </a>
             )}
           </div>
@@ -72,7 +69,7 @@ function Footer() {
 
         <div>
           <h3 className="mb-4 text-lg font-bold text-gold-400">نماد اعتماد</h3>
-          <img src={enemad} alt="نماد اعتماد الکترونیکی" className="h-20 w-20 rounded-lg bg-white p-1" loading="lazy" />
+          <Image src={enemad} alt="نماد اعتماد الکترونیکی" className="h-20 w-20 rounded-lg bg-white p-1" />
         </div>
       </div>
 
@@ -82,5 +79,3 @@ function Footer() {
     </footer>
   );
 }
-
-export default Footer;

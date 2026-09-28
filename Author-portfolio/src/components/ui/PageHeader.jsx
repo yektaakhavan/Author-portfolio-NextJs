@@ -1,16 +1,16 @@
-import { BsInfoCircleFill, BsHeadset, BsBookmarksFill, BsBookHalf, BsPersonLinesFill, BsCartFill } from "react-icons/bs";
+import { BsBookHalf, BsBookmarksFill, BsCartFill, BsHeadset, BsInfoCircleFill, BsPersonLinesFill } from "react-icons/bs";
 
-const icons = {
+const ICONS = {
   about: BsInfoCircleFill,
   contact: BsHeadset,
   articles: BsBookmarksFill,
   books: BsBookHalf,
   cart: BsCartFill,
-  default: BsPersonLinesFill,
 };
 
-function PageHeader({ title, type = "default" }) {
-  const Icon = icons[type] || icons.default;
+/** Centered page title with an icon badge. `type` picks the icon. */
+export default function PageHeader({ title, type }) {
+  const Icon = ICONS[type] ?? BsPersonLinesFill;
 
   return (
     <div className="mb-10 text-center">
@@ -23,5 +23,3 @@ function PageHeader({ title, type = "default" }) {
     </div>
   );
 }
-
-export default PageHeader;

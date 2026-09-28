@@ -1,13 +1,18 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 
-function BackToTopButton() {
+const SHOW_AFTER_PX = 300;
+
+/** Floating button that appears after scrolling down and jumps back to the top. */
+export default function BackToTopButton() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const toggle = () => setVisible(window.scrollY > 300);
-    window.addEventListener("scroll", toggle);
-    return () => window.removeEventListener("scroll", toggle);
+    const handleScroll = () => setVisible(window.scrollY > SHOW_AFTER_PX);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   if (!visible) return null;
@@ -23,5 +28,3 @@ function BackToTopButton() {
     </button>
   );
 }
-
-export default BackToTopButton;
