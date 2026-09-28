@@ -1,9 +1,11 @@
-import bookCoverWebp from "../assets/images/book-cover.webp";
-
 /**
  * Product catalog for the store. Currently a single title; add more
- * objects here as new books are published — Books.jsx and the cart
+ * objects here as new books are published — the books page and the cart
  * already work off this array.
+ *
+ * Cover images live in /public so their URL stays stable: the cart persists
+ * the image path in localStorage, and hashed build assets would go stale
+ * after a redeploy.
  */
 const books = [
   {
@@ -14,7 +16,7 @@ const books = [
     category: "موفقیت و توسعه فردی، کار و تجارت",
     publisher: "کلید آموزش",
     price: 480000,
-    image: bookCoverWebp,
+    image: "/images/book-cover.webp",
     specs: [
       { label: "انتشارات", value: "کلید آموزش" },
       { label: "قطع", value: "رقعی" },
@@ -76,4 +78,3 @@ const books = [
 ];
 
 export default books;
-export const getBookById = (id) => books.find((book) => book.id === id);
