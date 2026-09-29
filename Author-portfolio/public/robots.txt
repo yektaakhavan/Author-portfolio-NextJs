@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://akhavan-safaei.ir/sitemap.xml
