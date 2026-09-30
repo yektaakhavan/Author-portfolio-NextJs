@@ -1,0 +1,13 @@
+# Never serve the raw source of config/env files or anything under src/.
+<FilesMatch "^(\.env.*|config\.php)$">
+  Require all denied
+</FilesMatch>
+RewriteEngine On
+RewriteRule ^src/ - [F,L]
+RewriteRule ^bin/ - [F,L]
+
+# Real files (e.g. /uploads/articles/*.svg) are served as-is; everything
+# else goes through the front controller.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
