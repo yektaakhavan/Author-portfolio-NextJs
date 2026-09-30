@@ -1,20 +1,14 @@
 import { SITE_URL } from "@/lib/site";
-import { getArticles } from "@/lib/content";
 
-const STATIC_PATHS = ["", "/about", "/books", "/article", "/contact"];
+// Required for output: "export" — this file is generated once at build time.
+export const dynamic = "force-static";
 
-export default async function sitemap() {
+// Static paths only: individual article pages use a client-fetched ?id=,
+// so there's no fixed list of them at build time. They're still crawlable
+// through the /article listing page, which links to every one.
+const PATHS = ["", "/about", "/books", "/article", "/contact"];
+
+export default function sitemap() {
   const now = new Date();
-  const staticEntries = STATIC_PATHS.map((path) => ({
-    url: `${SITE_URL}${path}`,
-    lastModified: now,
-  }));
-
-  const articles = await getArticles().catch(() => []);
-  const articleEntries = articles.map((article) => ({
-    url: `${SITE_URL}/article/${article.id}`,
-    lastModified: article.publishedAt ? new Date(article.publishedAt) : now,
-  }));
-
-  return [...staticEntries, ...articleEntries];
+  return PATHS.map((path) => ({ url: `${SITE_URL}${path}`, lastModified: now }));
 }

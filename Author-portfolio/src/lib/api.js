@@ -12,6 +12,7 @@ export const api = {
   login: (username, password) => send("/auth/login", { method: "POST", body: { username, password } }),
 
   getArticles: () => send("/articles"),
+  getArticle: (id) => send(`/articles/${id}`),
   createArticle: (article) => sendAuthed("/articles", { method: "POST", body: article }),
   updateArticle: (id, article) => sendAuthed(`/articles/${id}`, { method: "PUT", body: article }),
   deleteArticle: (id) => sendAuthed(`/articles/${id}`, { method: "DELETE" }),

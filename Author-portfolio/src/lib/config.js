@@ -1,11 +1,8 @@
-/** Base URL of the Express API, without a trailing slash (e.g. http://localhost:4000/api). */
-export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api").replace(/\/$/, "");
+/** Base URL of the PHP API. Same-origin deployments can set this to "/api"; a separate API host needs the full URL (e.g. https://api.example.com/api). */
+export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "/api").replace(/\/$/, "");
 
-/** Origin that serves uploaded files: the API URL without its "/api" suffix. */
-const UPLOADS_ORIGIN = API_URL.replace(/\/api$/, "");
-
-/** Converts a backend-relative upload path (e.g. "/uploads/a.svg") to an absolute URL. */
+/** Converts a backend-relative upload path (e.g. "/uploads/a.svg") to an absolute URL. Uploads live alongside the API code, so this is just API_URL + the path. */
 export function resolveAsset(path) {
   if (!path || /^https?:\/\//.test(path)) return path;
-  return `${UPLOADS_ORIGIN}${path}`;
+  return `${API_URL}${path}`;
 }

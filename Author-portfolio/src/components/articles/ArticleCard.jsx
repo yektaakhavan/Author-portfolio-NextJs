@@ -30,7 +30,7 @@ export default function ArticleCard({ id, image, title, summary, publishedAt, sh
         <p className="line-clamp-3 flex-1 text-justify text-sm leading-7 text-gray-600">{summary}</p>
         {showButton && (
           <Link
-            href={`/article/${id}`}
+            href={`/article/view?id=${id}`}
             className="mt-auto inline-flex w-fit items-center gap-1 text-sm font-bold text-brand-500 hover:text-gold-500"
           >
             ادامه مطلب

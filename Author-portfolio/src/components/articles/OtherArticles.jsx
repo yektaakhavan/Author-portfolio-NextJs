@@ -20,7 +20,7 @@ export default function OtherArticles({ articles }) {
               className="h-14 w-14 shrink-0 rounded-lg bg-brand-50 object-cover"
             />
             <div>
-              <Link href={`/article/${id}`} className="text-sm font-bold text-brand-700 hover:text-brand-500">
+              <Link href={`/article/view?id=${id}`} className="text-sm font-bold text-brand-700 hover:text-brand-500">
                 {title}
               </Link>
               <p className="mt-1 text-xs text-gray-500">

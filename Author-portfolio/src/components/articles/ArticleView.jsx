@@ -1,27 +1,49 @@
+"use client";
+
+import { useEffect } from "react";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import OtherArticles from "@/components/articles/OtherArticles";
 import TodayCard from "@/components/articles/TodayCard";
 import PageHeader from "@/components/ui/PageHeader";
+import { useApiData } from "@/hooks/useApiData";
+import { api } from "@/lib/api";
 import { resolveAsset } from "@/lib/config";
-import { getArticle, getArticles } from "@/lib/content";
 
 const SIDEBAR_ARTICLE_COUNT = 5;
 
-export async function generateMetadata({ params }) {
-  const { id } = await params;
-  const article = await getArticle(id);
-
-  return article ? { title: article.title, description: article.summary } : {};
+// Note: with no server, the browser tab only gets this per-article title
+// after the JS runs — search engines still see the generic page title.
+function useDocumentTitle(title) {
+  useEffect(() => {
+    if (title) document.title = `${title} | علیرضا اخوان صفائی`;
+  }, [title]);
 }
 
-export default async function ArticleDetailPage({ params }) {
-  const { id } = await params;
-  const [article, allArticles] = await Promise.all([getArticle(id), getArticles().catch(() => [])]);
+export default function ArticleView() {
+  const id = useSearchParams().get("id");
 
-  if (!article) notFound();
+  const fetchArticle = () => api.getArticle(id);
+  const fetchOthers = () => api.getArticles().catch(() => []);
+  const { status, data: article } = useApiData(fetchArticle);
+  const { data: allArticles } = useApiData(fetchOthers);
 
-  const otherArticles = allArticles.filter((item) => String(item.id) !== String(id)).slice(0, SIDEBAR_ARTICLE_COUNT);
+  useDocumentTitle(article?.title);
+
+  if (status === "loading") return <div className="min-h-[60vh]" />;
+
+  if (status === "error" || !article) {
+    return (
+      <div className="container-app flex flex-col items-center gap-4 py-24 text-center">
+        <h1 className="text-xl font-bold text-brand-700">مقاله پیدا نشد</h1>
+        <p className="text-sm text-gray-500">این مقاله حذف شده یا آدرس آن اشتباه است.</p>
+      </div>
+    );
+  }
+
+  const otherArticles = (allArticles ?? [])
+    .filter((item) => String(item.id) !== String(id))
+    .slice(0, SIDEBAR_ARTICLE_COUNT);
 
   return (
     <div className="container-app py-12">
