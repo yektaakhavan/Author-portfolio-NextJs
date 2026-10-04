@@ -1,4 +1,4 @@
-# 📖 Author Portfolio — Discipline of Work
+# 📖 Author Portfolio — The-Work-Discipline
 
 An author portfolio and book store built with Next.js 16, featuring a public
 storefront, a shopping cart, checkout, and a full admin dashboard — backed by
