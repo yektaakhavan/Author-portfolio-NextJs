@@ -1,141 +1,229 @@
-# سایت علیرضا اخوان صفائی
+# 📖 Author Portfolio — Discipline of Work
 
-فرانت‌اند **Next.js 16** (به‌صورت static export — فقط HTML/CSS/JS خام،
-بدون نیاز به Node.js روی سرور) + بک‌اند **PHP + MySQL** که برای هاست
-اشتراکی معمولی (cPanel با phpMyAdmin) نوشته شده است.
+An author portfolio and book store built with Next.js 16, featuring a public
+storefront, a shopping cart, checkout, and a full admin dashboard — backed by
+a custom PHP REST API and MySQL database, designed to run on plain shared
+hosting with no Node.js server required in production.
 
-> نسخه‌ی قبلی این پروژه React+Vite با بک‌اند Node/Express بود. چون هاست
-> شما فقط PHP/MySQL دارد (بدون Node.js Selector)، هم فرانت‌اند و هم
-> بک‌اند بازنویسی شدند. تاریخچه‌ی کامیت‌های گیت مراحل این کار را نشان
-> می‌دهد.
+[![Frontend](https://img.shields.io/badge/Frontend-Next.js%2016-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![UI](https://img.shields.io/badge/UI-React%2019-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Styling](https://img.shields.io/badge/Styling-Tailwind%20CSS%204-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Backend](https://img.shields.io/badge/Backend-PHP%208-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
+[![Database](https://img.shields.io/badge/Database-MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 
-## ساختار پروژه
+---
 
+## Overview
+
+This project is the official site for author Alireza Akhavan Safaei and his
+book *Discipline of Work* (دیسیپلین کار) — a RTL-first Persian site
+combining an author portfolio, a blog of excerpts, and a small online store
+for the book itself.
+
+The project includes two main areas:
+
+- **Public storefront** — home, about, articles, book page, cart, and
+  checkout, all reading live data from the API.
+- **Admin dashboard** — a single-page panel for managing articles, book
+  price/stock, orders, and site-wide settings (contact info, social links),
+  with no page reload required.
+
+Unlike a static mockup, the frontend is a genuine **static export**: it
+builds down to plain HTML/CSS/JS with zero Node.js dependency at runtime,
+while still staying fully dynamic by fetching live content from the PHP API
+in the browser. This was a deliberate architecture choice to fit a real
+constraint — the target hosting environment is a plain shared cPanel account
+with phpMyAdmin and no Node.js runtime available.
+
+---
+
+## Features
+
+### Public Storefront
+
+- Static shell with client-side live data — no stale content after admin
+  edits, no rebuild required
+- Responsive home, about, articles, article detail, book, cart, and checkout
+  pages
+- Persistent shopping cart (localStorage-backed, synced across tabs)
+- Checkout with client-side validation and order submission
+- RTL layout with a self-hosted variable Persian font (Vazir)
+- Auto-rotating hero carousel with per-breakpoint art direction
+- SEO essentials: sitemap, robots.txt, per-page metadata
+
+### Admin Dashboard
+
+- JWT-based login (custom, dependency-free token implementation)
+- Article management (create, edit, delete) with an image gallery picker
+- Book price & stock overrides, reflected on the storefront instantly
+- Order list with status updates
+- Site settings editor (contact info, social links)
+- Every tab built as an independent client component, no full-page reloads
+
+---
+
+## Tech Stack
+
+### Frontend
+
+| Technology | Purpose |
+|---|---|
+| Next.js 16 (App Router) | Routing, static export build pipeline |
+| React 19 | UI development |
+| Tailwind CSS 4 | Styling and responsive UI |
+| next/font (local) | Self-hosted Vazir variable font |
+| AOS | Scroll animations |
+| react-icons | Icons |
+
+### Backend
+
+| Technology | Purpose |
+|---|---|
+| PHP 8 | Backend runtime, zero Composer dependencies |
+| MySQL | Relational database |
+| Custom JWT (HMAC-SHA256) | Stateless admin authentication |
+| bcrypt (`password_hash`) | Admin password hashing |
+| Apache + `.htaccess` | Routing and static file serving |
+
+---
+
+## Project Structure
+
+```text
+Author-portfolio/              Next.js frontend (static export)
+├── src/
+│   ├── app/                   App Router pages & layouts
+│   ├── components/
+│   │   ├── admin/             Admin dashboard tabs
+│   │   ├── articles/          Article cards, list, detail view
+│   │   ├── books/              Book product page, purchase panel
+│   │   ├── cart/ · checkout/
+│   │   ├── layout/            Navbar, Footer, site shell
+│   │   └── providers/         Settings context
+│   ├── hooks/                 useCart, useApiData, useIsHydrated…
+│   ├── lib/                   API client, formatting, config
+│   └── data/                  Static content (nav, hero slides…)
+│
+backend/                        PHP API + MySQL schema
+├── index.php                  Front controller / router
+├── src/                        Auth, Database, Request, Response, Token
+├── routes/                     articles · auth · books · orders · settings
+├── bin/                        Password-hash & data-migration CLI scripts
+└── schema.sql                  Database schema
 ```
-Author-portfolio/   فرانت‌اند Next.js (static export)
-backend/             API با PHP + کوئری‌های خام MySQL
+
+---
+
+## Key Implementation Details
+
+### Static Export + Live Data
+
+The frontend builds to static files (`output: "export"`), so there's no
+Node.js process running in production. Pages that need current data (home,
+articles, books, contact, cart, checkout, admin) fetch it from the PHP API
+client-side through a small `useApiData` hook that tracks loading/success/
+error state — so admin edits appear on the live site without a rebuild.
+
+### Dependency-Free Admin Auth
+
+Rather than pulling in a JWT library via Composer (often unavailable on
+shared hosts), the backend implements a minimal HS256 token (`src/Token.php`)
+by hand — issue, sign, and verify, with no external dependencies.
+
+### Server-Side Price Integrity
+
+Book prices and stock are stored and served from MySQL, not trusted from the
+client. Admin edits to price/stock go through an authenticated endpoint and
+are reflected everywhere immediately.
+
+### Data Migration Path
+
+A CLI script (`bin/migrate-json-to-mysql.php`) imports content from the
+project's earlier JSON-file-based backend into MySQL — articles, orders,
+overrides, and settings — without ever committing real customer data to the
+repository.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (frontend)
+- PHP 8+ and MySQL (backend) — e.g. via XAMPP for local development
+
+### Backend setup
+
+```bash
+cd backend
+cp .env.example .env          # fill in DB credentials, JWT secret
+php bin/generate-password-hash.php "your-password"   # paste into .env
+# import schema.sql into your MySQL database via phpMyAdmin
 ```
 
-## راه‌اندازی بک‌اند (PHP + MySQL)
-
-۱. یک دیتابیس MySQL در cPanel بسازید (از بخش «MySQL Databases»؛ یک
-   کاربر هم به آن دیتابیس متصل کنید و دسترسی کامل بدهید).
-
-۲. اسکیما را وارد کنید: در phpMyAdmin، دیتابیس‌تان را باز کنید → تب
-   **Import** → فایل `backend/schema.sql` را انتخاب کنید → Go.
-   (این فایل فقط ساختار جدول‌ها و یک ردیف پیش‌فرض برای تنظیمات سایت را
-   می‌سازد؛ هیچ داده‌ی واقعی مشتری در آن نیست.)
-
-۳. فایل `backend/.env.example` را کپی کنید به `backend/.env` و مقادیر
-   را پر کنید:
-
-   ```
-   DB_HOST=localhost
-   DB_NAME=<نام دیتابیس شما>
-   DB_USER=<کاربر دیتابیس>
-   DB_PASS=<رمز دیتابیس>
-   JWT_SECRET=<یک رشته‌ی تصادفی طولانی>
-   ADMIN_USERNAME=admin
-   ADMIN_PASSWORD_HASH=<مرحله‌ی بعد>
-   ```
-
-۴. رمز ورود پنل مدیریت را بسازید (این مقدار هش‌شده در `.env` ذخیره
-   می‌شود، نه رمز خام):
-   - اگر به SSH/Terminal دسترسی دارید: `php bin/generate-password-hash.php "رمز-دلخواه"`
-   - اگر ندارید: فایل `backend/bin/generate-password-hash.php` را
-     موقتاً آپلود کنید و در مرورگر باز کنید:
-     `https://yourdomain.com/api/bin/generate-password-hash.php?password=رمز-دلخواه`
-     خروجی را کپی کنید، سپس **این فایل را حتماً پاک کنید** (نگه داشتنش
-     روی سرور یعنی هر کسی می‌تواند هش رمز بسازد).
-
-۵. **اگر داده‌ی واقعی قبلی دارید** (مقالات، سفارش‌ها، تنظیمات ذخیره‌شده
-   در نسخه‌ی قبلی با `backend/data/db.json`)، یک‌بار این را اجرا کنید
-   تا به MySQL منتقل شود:
-   ```
-   php bin/migrate-json-to-mysql.php /path/to/db.json
-   ```
-
-## راه‌اندازی فرانت‌اند (Next.js)
+### Frontend setup
 
 ```bash
 cd Author-portfolio
 npm install
-cp .env.example .env.local
+cp .env.example .env.local    # set NEXT_PUBLIC_API_URL
+npm run dev
 ```
 
-در `.env.local`:
-```
-NEXT_PUBLIC_API_URL=/api
-NEXT_PUBLIC_SITE_URL=https://yourdomain.com
-```
+The app will be available at:
 
-```bash
-npm run build
+```text
+http://localhost:3000
 ```
 
-خروجی در پوشه‌ی `Author-portfolio/out/` ساخته می‌شود — این همان چیزی
-است که آپلود می‌کنید.
+---
 
-برای توسعه‌ی محلی: `npm run dev` (روی `localhost:3000`، به بک‌اند PHP
-محلی‌تان با `NEXT_PUBLIC_API_URL=http://localhost:8080/api` وصل شوید).
+## Available Scripts
 
-## آپلود روی cPanel — نکته‌ی مهم درباره‌ی ساختار پوشه‌ها
-
-هر دو بخش را زیر یک دامنه/ساب‌دامین، در **یک** `public_html` آپلود
-کنید:
-
-```
-public_html/
-├── (همه‌ی محتوای پوشه‌ی Author-portfolio/out/)   ← فرانت‌اند استاتیک
-└── api/
-    └── (همه‌ی محتوای پوشه‌ی backend/، شامل uploads/)
-```
-
-نکات حیاتی:
-- **کل پوشه‌ی `backend/` — شامل فایل‌های نقطه‌دار مثل `.htaccess` و
-  `.env`** — باید داخل `public_html/api/` برود. خیلی از کلاینت‌های FTP
-  و دستور `cp -r dir/*` فایل‌های نقطه‌دار را جا می‌اندازند؛ حتماً چک
-  کنید `.htaccess` و `.env` واقعاً آپلود شده‌اند، وگرنه API کار
-  نمی‌کند.
-- پوشه‌ی `backend/uploads/` باید **داخل همان `api/`** بماند (یعنی در
-  `public_html/api/uploads/`)، نه در ریشه‌ی سایت — فرانت‌اند آدرس
-  تصاویر را نسبت به همین مسیر می‌سازد.
-- در ریشه‌ی `public_html` یک `.htaccess` با این محتوا بگذارید تا صفحه‌ی
-  ۴۰۴ سفارشی کار کند:
-  ```
-  ErrorDocument 404 /404.html
-  ```
-
-بعد از آپلود، این آدرس‌ها را چک کنید:
-- `https://yourdomain.com/api/health` باید `{"ok":true}` برگرداند
-- `https://yourdomain.com/` باید سایت را نشان بدهد
-- `https://yourdomain.com/admin/` باید صفحه‌ی ورود پنل مدیریت را نشان بدهد
-
-## محدودیت‌های static export (نسبت به نسخه‌ی قبلی)
-
-- آدرس مقالات از `/article/5` به `/article/view?id=5` تغییر کرد (چون
-  هاست استاتیک نمی‌تواند صفحه‌ای برای مقاله‌ای که *بعداً* ساخته
-  می‌شود از قبل بسازد).
-- عنوان و توضیح هر مقاله برای موتورهای جستجو دیگر اختصاصی نیست (چون
-  رندر HTML اولیه دیگر سمت سرور نیست)؛ صفحه‌ی لیست مقالات همچنان به
-  همه‌ی آن‌ها لینک می‌دهد و قابل ایندکس است.
-- همه‌ی صفحات دیگر (خانه، کتاب‌ها، تماس با ما) محتوای زنده را بعد از
-  بارگذاری اولیه از API می‌گیرند — یعنی تغییرات پنل مدیریت بدون نیاز
-  به build مجدد دیده می‌شوند، اما یک لحظه‌ی کوتاه لودینگ دارند.
-
-## متغیرهای محیطی فرانت‌اند (`.env.local`)
-
-| متغیر | توضیح |
+| Command | Description |
 |---|---|
-| `NEXT_PUBLIC_API_URL` | معمولاً `/api` (هم‌دامنه، بدون نیاز به CORS) |
-| `NEXT_PUBLIC_SITE_URL` | آدرس عمومی سایت، برای sitemap و canonical URLها |
+| `npm run dev` | Start the development server |
+| `npm run build` | Build the static export (output in `out/`) |
+| `npm run lint` | Run ESLint |
 
-## متغیرهای محیطی بک‌اند (`backend/.env`)
+---
 
-| متغیر | توضیح |
-|---|---|
-| `DB_HOST` / `DB_NAME` / `DB_USER` / `DB_PASS` | اطلاعات اتصال به MySQL |
-| `JWT_SECRET` | کلید امضای توکن ادمین — یک مقدار طولانی و تصادفی |
-| `ADMIN_USERNAME` | نام کاربری ورود پنل مدیریت |
-| `ADMIN_PASSWORD_HASH` | هش bcrypt رمز عبور (با `bin/generate-password-hash.php` بسازید) |
-| `ALLOWED_ORIGIN` | معمولاً `*` کافی است (چون از توکن استفاده می‌شود، نه کوکی) |
+## Deployment
+
+Built for plain PHP shared hosting (e.g. cPanel): upload the static export
+and the `backend/` folder under the same domain, with the backend at `/api`.
+See the deployment notes in this repo's README history / docs for the two
+easy-to-miss pitfalls — dotfiles not being copied, and the uploads folder
+needing to stay inside `api/` rather than the site root.
+
+---
+
+## Roadmap
+
+- [ ] Online payment gateway integration
+- [ ] Direct image upload in the admin panel (currently gallery + URL)
+- [ ] English translation of the storefront
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png" width="100%" alt="section divider" />
+
+## 👨‍💻 Author
+
+**Yekta Akhavan**
+
+<p align="center">
+  <a href="mailto:yekta.akhavan.dev@gmail.com">
+    <img src="https://img.shields.io/badge/Gmail-yekta.akhavan.dev%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white&labelColor=0D1117" alt="Email" />
+  </a>
+  &nbsp;
+  <a href="https://www.linkedin.com/in/yekta-akhavan/">
+    <img src="https://img.shields.io/badge/LinkedIn-Yekta%20Akhavan-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=0D1117" alt="LinkedIn" />
+  </a>
+  &nbsp;
+  <a href="https://www.instagram.com/yektaakhavan.dev?igsi=d2Vya2RqazhqZ2Z2">
+    <img src="https://img.shields.io/badge/Instagram-yekta--akhavan-E4405F?style=for-the-badge&logo=instagram&logoColor=white&labelColor=0D1117" alt="Instagram" />
+  </a>
+  &nbsp;
+  <a href="https://yekta-akhavan.vercel.app/">
+    <img src="https://img.shields.io/badge/Portfolio-yekta--akhavan.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white&labelColor=0D1117" alt="Portfolio" />
+  </a>
+</p>
